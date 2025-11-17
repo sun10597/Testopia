@@ -1,0 +1,144 @@
+{{>layout/header}}
+<!-- 메인 컨텐츠 영역 -->
+<main class="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <!-- 환영 메시지 및 소개 -->
+    <section class="text-center mb-12">
+        <h2 class="text-4xl sm:text-5xl font-bold text-gray-800 mb-4">나를 찾아 떠나는 여정, Testopia</h2>
+        <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+            다양한 성향 테스트를 통해 숨겨진 나의 모습을 발견하고, 더 나은 나를 만들어보세요.
+        </p>
+    </section>
+
+    <!-- 테스트 목록 그리드 -->
+    <section>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+            <a href="/test/tetto-eigen" class="test-card block p-6 bg-white rounded-xl shadow-lg border border-gray-100 hover:border-primary-blue">
+                <div class="text-4xl mb-4 text-center">
+                    <span role="img" aria-label="Magnifying Glass Icon">🧐</span>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-900 mb-2 text-center">테토 에겐 테스트</h3>
+                <p class="text-gray-500 text-sm text-center">
+                    잠재된 사고방식과 숨겨진 성향을 깊이 파헤치는 심층 분석 테스트입니다.
+                </p>
+                <div class="mt-4 text-center">
+                    <span class="inline-block bg-sky-100 text-sky-700 text-xs font-medium px-3 py-1 rounded-full">심층 분석</span>
+                </div>
+            </a>
+
+            <!-- 테스트 카드 1: 자아 탐색 (MBTI 스타일) -->
+            <a href="/test/self-explore" class="test-card block p-6 bg-white rounded-xl shadow-lg border border-gray-100 hover:border-primary-blue">
+                <div class="text-4xl mb-4 text-center">
+                    <span role="img" aria-label="Brain Icon">🧠</span>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-900 mb-2 text-center">자아 탐색 테스트</h3>
+                <p class="text-gray-500 text-sm text-center">
+                    나의 성격 유형, 강점, 약점을 심도 있게 분석하는 기본 테스트
+                </p>
+                <div class="mt-4 text-center">
+                    <span class="inline-block bg-primary-blue/10 text-primary-blue text-xs font-medium px-3 py-1 rounded-full">심리 분석</span>
+                </div>
+            </a>
+
+            <!-- 테스트 카드 2: 직업 적성 -->
+            <a href="/test/career" class="test-card block p-6 bg-white rounded-xl shadow-lg border border-gray-100 hover:border-primary-blue">
+                <div class="text-4xl mb-4 text-center">
+                    <span role="img" aria-label="Briefcase Icon">💼</span>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-900 mb-2 text-center">직업 적성 테스트</h3>
+                <p class="text-gray-500 text-sm text-center">
+                    나의 성향과 가장 잘 맞는 직업 분야와 업무 환경을 추천받으세요
+                </p>
+                <div class="mt-4 text-center">
+                    <span class="inline-block bg-green-100 text-green-700 text-xs font-medium px-3 py-1 rounded-full">미래 계획</span>
+                </div>
+            </a>
+
+            <!-- 테스트 카드 3: 연애/관계 유형 -->
+            <a href="/test/relationship" class="test-card block p-6 bg-white rounded-xl shadow-lg border border-gray-100 hover:border-primary-blue">
+                <div class="text-4xl mb-4 text-center">
+                    <span role="img" aria-label="Heart Icon">💖</span>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-900 mb-2 text-center">연애/관계 유형 테스트</h3>
+                <p class="text-gray-500 text-sm text-center">
+                    사랑하는 방식, 갈등 해결 성향, 이상적인 파트너 유형 알아보기
+                </p>
+                <div class="mt-4 text-center">
+                    <span class="inline-block bg-pink-100 text-pink-700 text-xs font-medium px-3 py-1 rounded-full">관계 심리</span>
+                </div>
+            </a>
+
+            <!-- 테스트 카드 4: 여행 스타일 (확장성 예시) -->
+            <a href="/test/travel-style" class="test-card block p-6 bg-white rounded-xl shadow-lg border border-gray-100 hover:border-primary-blue">
+                <div class="text-4xl mb-4 text-center">
+                    <span role="img" aria-label="Airplane Icon">✈️</span>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-900 mb-2 text-center">여행 스타일 테스트</h3>
+                <p class="text-gray-500 text-sm text-center">
+                    나의 완벽한 여행지, 여행 스타일, 선호하는 동행인을 확인하세요
+                </p>
+                <div class="mt-4 text-center">
+                    <span class="inline-block bg-yellow-100 text-yellow-700 text-xs font-medium px-3 py-1 rounded-full">흥미 기반</span>
+                </div>
+            </a>
+
+            <!-- 테스트 카드 5: 소비 성향 -->
+            <a href="/test/spending" class="test-card block p-6 bg-white rounded-xl shadow-lg border border-gray-100 hover:border-primary-blue">
+                <div class="text-4xl mb-4 text-center">
+                    <span role="img" aria-label="Money Bag Icon">💰</span>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-900 mb-2 text-center">나의 소비 성향 테스트</h3>
+                <p class="text-gray-500 text-sm text-center">
+                    나는 '플렉스형'일까 '짠돌이형'일까? 나의 지출 습관 분석
+                </p>
+                <div class="mt-4 text-center">
+                    <span class="inline-block bg-orange-100 text-orange-700 text-xs font-medium px-3 py-1 rounded-full">경제 성향</span>
+                </div>
+            </a>
+
+            <!-- 테스트 카드 6: 유머 감각 -->
+            <a href="/test/humor" class="test-card block p-6 bg-white rounded-xl shadow-lg border border-gray-100 hover:border-primary-blue">
+                <div class="text-4xl mb-4 text-center">
+                    <span role="img" aria-label="Grinning Face Icon">😂</span>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-900 mb-2 text-center">유머 감각 테스트</h3>
+                <p class="text-gray-500 text-sm text-center">
+                    남들과 다른 나만의 유머 코드를 찾아보고 웃음 유형 확인하기
+                </p>
+                <div class="mt-4 text-center">
+                    <span class="inline-block bg-purple-100 text-purple-700 text-xs font-medium px-3 py-1 rounded-full">재미 요소</span>
+                </div>
+            </a>
+
+            <a href="/test/humor" class="test-card block p-6 bg-white rounded-xl shadow-lg border border-gray-100 hover:border-primary-blue">
+                <div class="text-4xl mb-4 text-center">
+                    <span role="img" aria-label="Grinning Face Icon">😂</span>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-900 mb-2 text-center">유머 감각 테스트</h3>
+                <p class="text-gray-500 text-sm text-center">
+                    남들과 다른 나만의 유머 코드를 찾아보고 웃음 유형 확인하기
+                </p>
+                <div class="mt-4 text-center">
+                    <span class="inline-block bg-purple-100 text-purple-700 text-xs font-medium px-3 py-1 rounded-full">재미 요소</span>
+                </div>
+            </a>
+
+            <a href="/test/humor" class="test-card block p-6 bg-white rounded-xl shadow-lg border border-gray-100 hover:border-primary-blue">
+                <div class="text-4xl mb-4 text-center">
+                    <span role="img" aria-label="Grinning Face Icon">😂</span>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-900 mb-2 text-center">유머 감각 테스트</h3>
+                <p class="text-gray-500 text-sm text-center">
+                    남들과 다른 나만의 유머 코드를 찾아보고 웃음 유형 확인하기
+                </p>
+                <div class="mt-4 text-center">
+                    <span class="inline-block bg-purple-100 text-purple-700 text-xs font-medium px-3 py-1 rounded-full">재미 요소</span>
+                </div>
+            </a>
+
+        </div>
+    </section>
+</main>
+
+
+{{>layout/footer}}

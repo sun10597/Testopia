@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Testopia - 당신의 성향을 찾아보세요</title>
+    <!-- Tailwind CSS CDN 로드 -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        // Tailwind Config (Inter 폰트 설정)
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        'primary-blue': '#4F46E5', // Indigo-600
+                        'primary-light': '#F5F5FF', // Light background for contrast
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* 부드러운 전환 효과를 위한 CSS */
+        .test-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .test-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
+            border-color: #4F46E5;
+        }
+    </style>
+</head>
+<body class="bg-primary-light min-h-screen antialiased">
+
+<!-- 네비게이션 및 헤더 섹션 -->
+<header class="bg-white shadow-md">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+        <h1 class="text-3xl font-extrabold text-primary-blue tracking-tight">Testopia</h1>
+
+        <!-- 로그인/사용자 정보 섹션 (Handlebars 템플릿 구조 유지) -->
+        <div class="flex items-center space-x-4">
+            {{#name}}
+                <!-- 로그인 상태일 때 -->
+                <div class="text-right">
+                    <p class="text-sm font-semibold text-gray-700">안녕하세요, <strong>{{name}}</strong>님</p>
+                </div>
+                <a href="/logout" class="px-4 py-2 text-sm font-medium text-red-600 border border-red-200 rounded-full hover:bg-red-50 transition duration-150">
+                    로그아웃
+                </a>
+            {{/name}}
+
+            {{^name}}
+                <!-- 로그아웃 상태일 때 -->
+                <a href="/login" class="px-5 py-2 text-sm font-medium text-white bg-primary-blue rounded-full hover:bg-indigo-700 shadow-lg transition duration-150">
+                    로그인 하러가기
+                </a>
+            {{/name}}
+        </div>
+        <!-- End 로그인/사용자 정보 섹션 -->
+    </div>
+</header>

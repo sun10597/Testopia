@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Testopia - 로그인</title>
+    <!-- Tailwind CSS CDN 로드 -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        // Tailwind Config (Inter 폰트 설정)
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        'primary-blue': '#4F46E5', // Indigo-600
+                        'primary-light': '#F5F5FF', // Light background for contrast
+                        'kakao': '#FEE500', // Kakao brand color
+                        'naver': '#03C75A', // Naver brand color
+                        'google-border': '#DADCE0' // Light border for Google
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-primary-light min-h-screen antialiased flex items-center justify-center p-4">
+
+<div class="w-full max-w-sm">
+    <div class="bg-white p-8 rounded-2xl shadow-xl border border-gray-100">
+        <h3 class="text-3xl font-bold text-gray-800 text-center mb-6">
+            Testopia <span class="text-primary-blue">로그인</span>
+        </h3>
+
+        <p class="text-center text-sm text-gray-500 mb-8">
+            간편하게 소셜 계정으로 로그인하고<br>나만의 테스트 기록을 시작해 보세요.
+        </p>
+
+        <!-- Google 로그인 버튼 -->
+        <a href="/oauth2/authorization/google" class="flex items-center justify-center h-12 w-full mb-3 text-base font-semibold text-gray-700 bg-white border border-google-border rounded-lg shadow-sm hover:bg-gray-50 transition duration-150">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/1280px-Google_%22G%22_logo.svg.png" alt="Google Logo" class="w-5 h-5 mr-3">
+            Google로 로그인
+        </a>
+
+        <!-- Kakao 로그인 버튼 -->
+        <a href="/oauth2/authorization/kakao" class="flex items-center justify-center h-12 w-full mb-3 text-base font-semibold text-gray-900 bg-kakao border border-kakao rounded-lg shadow-sm hover:bg-yellow-400 transition duration-150">
+            <img src="https://www.kakaocorp.com/page/favicon.ico" onerror="this.style.display='none'" alt="Kakao Logo" class="w-5 h-5 mr-3">
+            Kakao로 로그인
+        </a>
+
+        <!-- Naver 로그인 버튼 -->
+        <a href="/oauth2/authorization/naver" class="flex items-center justify-center h-12 w-full text-base font-semibold text-white bg-naver border border-naver rounded-lg shadow-sm hover:bg-green-600 transition duration-150">
+            <img src="https://i.namu.wiki/i/or2uOVuJ_JDomgZkqRBOiYRX7dfPJDrIVXk-L47rIIF5n-tKq4J5xdEFVRgQnjrX2xbasdJNV0ECDtpBkVSVgQ.webp" alt="naver Logo" class="w-5 h-5 mr-3">
+            Naver로 로그인
+        </a>
+    </div>
+</div>
+
+</body>
+</html>
