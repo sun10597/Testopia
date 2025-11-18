@@ -47,12 +47,22 @@ public class OAuth2UserService extends DefaultOAuth2UserService {
             providerId = String.valueOf(attributes.get("id"));
 
             Map<String, Object> kakaoAccount = (Map<String, Object>) attributes.get("kakao_account");
-            Map<String, Object> profile = (Map<String, Object>) kakaoAccount.get("profile");
+            Map<String, Object> profile = kakaoAccount != null
+                    ? (Map<String, Object>) kakaoAccount.get("profile")
+                    : null;
 
             name = profile != null ? (String) profile.get("nickname") : null;
             email = kakaoAccount != null ? (String) kakaoAccount.get("email") : null;
             principalKey = "id";
-            System.err.println("🔍 KAKAO ATTRIBUTES = " + oAuth2User.getAttributes());
+
+            // ✅ 여기서 attributes를 "id, name, email"로 평탄화
+            attributes = Map.of(
+                    "id", providerId,
+                    "name", name,
+                    "email", email
+            );
+
+            System.err.println("🔍 KAKAO FLAT ATTRIBUTES = " + attributes);
 
         } else if ("naver".equals(registrationId)) {
             Map<String, Object> response = (Map<String, Object>) attributes.get("response");
@@ -80,8 +90,8 @@ public class OAuth2UserService extends DefaultOAuth2UserService {
                         memberRepository.save(MemberEntity.builder()
                                 .provider(provider)
                                 .providerId(providerId)
-                                .name(name)
-                                .email(email)
+                                .memName(name)
+                                .memEmail(email)
                                 .role("0")
                                 .build())
                 );
