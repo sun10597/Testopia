@@ -1,0 +1,35 @@
+{{>layout/header}}
+
+{{#articleEntity}}
+    <div class="container mt-5">
+        <h1 class="fw-bold text-primary mb-4">📝 글 수정</h1>
+
+        <form method="POST" action="/articles/editProc" class="shadow-sm p-4 rounded bg-light">
+            <input type="hidden" name="id" value="{{id}}">
+
+            <div class="mb-3">
+                <label for="title" class="form-label fw-semibold">글 제목</label>
+                <input type="text" class="form-control" id="title" name="title" value="{{title}}" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="content" class="form-label fw-semibold">내용</label>
+                <textarea class="form-control" id="content" name="content" rows="8" required>{{content}}</textarea>
+            </div>
+
+            <div class="d-flex justify-content-end gap-2">
+                <a href="/articles/view/{{id}}" class="btn btn-secondary">⬅️ 뒤로</a>
+                <button type="reset" class="btn btn-light">🧹 초기화</button>
+                <button type="submit" class="btn btn-primary">💾 수정 완료</button>
+            </div>
+        </form>
+    </div>
+{{/articleEntity}}
+
+{{#msg}}
+    <script>
+        alert("{{msg}}");
+    </script>
+{{/msg}}
+
+{{>layout/footer}}

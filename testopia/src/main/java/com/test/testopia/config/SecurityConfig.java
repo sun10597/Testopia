@@ -7,6 +7,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+// 💡 세션 관리를 위한 import 추가
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
@@ -22,6 +24,13 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
                 .formLogin(form -> form.disable())
+
+                // 💡 1. 세션 관리 정책 추가
+                .sessionManagement(session -> session
+                        // 항상 세션을 사용하거나, 필요할 경우 생성하도록 설정
+                        .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
+                )
+
                 .logout(logout -> logout
                         .logoutUrl("/logout")
                         .logoutSuccessUrl("/")

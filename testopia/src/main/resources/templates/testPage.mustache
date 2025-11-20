@@ -1,0 +1,152 @@
+{{> layout/header}}
+
+<main class="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <section class="max-w-3xl mx-auto">
+        <header class="mb-8 text-center">
+            <h1 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-3">
+                {{test.name}}
+            </h1>
+            <p class="text-gray-600 text-base sm:text-lg leading-relaxed">
+                {{test.description}}
+            </p>
+            <div id="progress-bar-container" class="w-full bg-gray-200 rounded-full h-2.5 mt-4">
+                <div id="progress-bar" class="bg-primary-blue h-2.5 rounded-full transition-all duration-500 ease-in-out" style="width: 0%"></div>
+            </div>
+        </header>
+
+        <form id="quiz-form" method="post" action="/test/{{test.id}}/submit">
+
+            <div id="quiz-wrapper" class="overflow-hidden relative">
+                <div id="quiz-container" class="flex transition-transform duration-500 ease-in-out" style="width: fit-content;">
+
+                    {{#questions}}
+                        <div
+                                class="quiz-step flex-shrink-0 w-[504px] bg-white rounded-xl shadow-lg border border-gray-100 p-6 sm:p-8"
+                                data-step-index="{{orderNo}}"
+                        >
+                            <p class="font-bold text-lg mb-6 text-gray-900">
+                                {{orderNo}}. {{text}}
+                            </p>
+
+                            <div class="space-y-3">
+                                {{#choices}}
+                                    <label class="flex items-start gap-3 cursor-pointer p-3 border rounded-lg hover:bg-indigo-50 transition shadow-sm">
+                                        <input
+                                                type="radio"
+                                                name="q{{question.id}}"
+                                                value="{{id}}"
+                                                class="mt-1.5 h-4 w-4 text-primary-blue border-gray-300 focus:ring-primary-blue"
+                                                required
+                                                onchange="handleAnswer(this)"
+                                        >
+                                        <span class="text-gray-700 font-medium">
+                                            {{text}}
+                                        </span>
+                                    </label>
+                                {{/choices}}
+                            </div>
+                        </div>
+                    {{/questions}}
+                </div>
+            </div>
+
+            <div class="mt-10 flex justify-end" id="submit-button-container" style="display: none;">
+                <button
+                        type="submit"
+                        class="px-8 py-3 bg-primary-blue text-white rounded-full text-base font-semibold hover:bg-indigo-700 transition shadow-xl">
+                    결과 보기
+                </button>
+            </div>
+        </form>
+    </section>
+</main>
+
+{{> layout/footer}}
+
+<script>
+    const steps = document.querySelectorAll('.quiz-step');
+    const totalSteps = steps.length;
+    let currentStepIndex = 0;
+    const submitContainer = document.getElementById('submit-button-container');
+    const progressBar = document.getElementById('progress-bar');
+    const quizContainer = document.getElementById('quiz-container');
+    const quizWrapper = document.getElementById('quiz-wrapper');
+
+    // 섹션의 최대 너비 (max-w-3xl)를 JavaScript로 가져와야 하지만,
+    // Tailwind의 max-w-3xl은 기본적으로 48rem (768px) 입니다.
+    // 여기서는 질문 컨테이너 너비를 임시로 고정값 (예: 600px)으로 가정하고 처리하겠습니다.
+    // 실제 운영 환경에서는 CSS 변수나 계산을 통해 정확한 값을 가져와야 합니다.
+    const STEP_WIDTH = quizContainer.parentNode.offsetWidth; // 부모 요소의 너비를 사용합니다.
+
+    // 다음 문제로 슬라이드하며 보여주는 함수
+    function showStep(index) {
+
+        // 1. 유효하지 않은 인덱스 또는 종료 검사
+        if (index < 0 || index > totalSteps) {
+            return;
+        }
+
+        // 모든 질문이 끝난 경우
+        if (index === totalSteps) {
+            // 질문 컨테이너 숨기기
+            quizWrapper.style.height = '0';
+            quizWrapper.style.opacity = '0';
+
+            // 제출 버튼 표시
+            submitContainer.style.display = 'flex';
+            updateProgressBar(totalSteps);
+            return;
+        }
+
+        // 2. 현재 단계 업데이트
+        currentStepIndex = index;
+        const currentStep = steps[currentStepIndex];
+
+        // 3. 슬라이드 애니메이션 (컨테이너 자체를 왼쪽으로 이동)
+        // 현재 인덱스 * -100% 만큼 X축으로 이동
+        const offset = currentStepIndex * STEP_WIDTH;
+        quizContainer.style.transform = `translateX(-${offset}px)`;
+
+        // 4. 컨테이너 높이 조정 (질문의 높이에 맞춤)
+        // Flexbox 덕분에 offsetHeight 계산이 훨씬 안정적입니다.
+        quizWrapper.style.height = currentStep.offsetHeight + 'px';
+        quizWrapper.style.transition = 'height 0.5s ease-out'; // Wrapper에 높이 transition 추가
+
+        // 5. 진행률 표시기 업데이트
+        updateProgressBar(index + 1);
+    }
+
+    // 진행률 바 업데이트 함수 (이전과 동일)
+    function updateProgressBar(current) {
+        const percentage = (current / totalSteps) * 100;
+        progressBar.style.width = percentage + '%';
+    }
+
+    // 라디오 버튼이 선택될 때 호출되는 핸들러 (이전과 동일)
+    function handleAnswer(radioElement) {
+        // 답변 선택 후 다음 단계로 이동
+        showStep(currentStepIndex + 1);
+    }
+
+    // 초기화: 페이지 로드 시 첫 번째 질문 표시
+    document.addEventListener('DOMContentLoaded', () => {
+        if (totalSteps > 0) {
+            // [수정] 모든 step의 너비를 부모의 너비로 설정 (반응형 대응)
+            const parentWidth = quizWrapper.offsetWidth;
+            steps.forEach(step => {
+                step.style.width = parentWidth + 'px';
+            });
+
+            // 초기 컨테이너의 너비를 모든 스텝의 너비를 합한 값으로 설정
+            quizContainer.style.width = (parentWidth * totalSteps) + 'px';
+
+            // 첫 번째 질문의 높이를 기준으로 wrapper 높이 설정
+            quizWrapper.style.height = steps[0].offsetHeight + 'px';
+
+            // 첫 번째 질문 표시
+            showStep(0);
+            updateProgressBar(1);
+        }
+    });
+
+</script>

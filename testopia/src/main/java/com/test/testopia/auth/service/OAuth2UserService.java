@@ -54,8 +54,6 @@ public class OAuth2UserService extends DefaultOAuth2UserService {
             name = profile != null ? (String) profile.get("nickname") : null;
             email = kakaoAccount != null ? (String) kakaoAccount.get("email") : null;
             principalKey = "id";
-
-            // ✅ 여기서 attributes를 "id, name, email"로 평탄화
             attributes = Map.of(
                     "id", providerId,
                     "name", name,
@@ -95,13 +93,13 @@ public class OAuth2UserService extends DefaultOAuth2UserService {
                                 .role("0")
                                 .build())
                 );
+        MemberVO vo = new MemberVO(member);
 
         // ★★★ Spring Security에서 사용할 OAuth2User 생성 ★★★
         return new DefaultOAuth2User(
                 Collections.singleton(new SimpleGrantedAuthority(member.getRole())),
-                attributes,
+                Map.of(principalKey, providerId, "member", vo),
                 principalKey
-
         );
     }
 }

@@ -1,0 +1,15 @@
+package com.test.testopia.articles.service; // Controller와 가까운 패키지에 위치
+
+import com.test.testopia.articles.service.ArticleVO;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
+@NoArgsConstructor // 💡 Spring Data Binding을 위해 필수
+public class ArticleForm {
+    private Long id;
+    private String title;
+    private String content;
+}

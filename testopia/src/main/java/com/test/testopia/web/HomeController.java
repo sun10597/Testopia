@@ -1,5 +1,6 @@
 package com.test.testopia.web;
 
+import com.test.testopia.auth.service.MemberVO;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
@@ -14,8 +15,14 @@ public class HomeController {
                        Model model) {
 
         if (oAuth2User != null) {
-            model.addAttribute("name", oAuth2User.getAttribute("name"));
-            model.addAttribute("email", oAuth2User.getAttribute("email"));
+            Object userAttribute = oAuth2User.getAttributes().get("member");
+
+            if (userAttribute instanceof MemberVO vo) {
+                model.addAttribute("name", vo.getMemName());
+                System.err.println("✅ 세션에서 로드된 사용자 이름: " + vo.getMemName());
+            } else {
+                model.addAttribute("name", oAuth2User.getAttribute("name"));
+            }
         }
 
         return "index";

@@ -1,0 +1,45 @@
+    {{> layout/header}}
+
+    <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <section class="max-w-2xl mx-auto">
+            <div class="bg-white rounded-2xl shadow-lg border border-gray-100 p-8 text-center">
+                <h1 class="text-3xl sm:text-4xl font-bold mb-4 text-gray-900">
+                    {{test.name}} 결과
+                </h1>
+
+                <p class="text-lg sm:text-xl mb-3 text-gray-700">
+                    당신의 유형은
+                    <span class="font-extrabold text-primary-blue">
+                        {{resultType}}
+                    </span>
+                    입니다.
+                </p>
+
+                <p class="text-gray-600 mb-4">
+                    총 점수:
+                    <span class="font-semibold text-gray-900">
+                        {{totalScore}}
+                    </span>
+                </p>
+
+                <p class="text-base sm:text-lg text-gray-700 mb-8 leading-relaxed whitespace-pre-line text-center">
+                    {{resultDescription}}
+                </p>
+
+                <div class="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4">
+                    <a
+                            href="/test/{{test.id}}"
+                            class="px-5 py-2.5 rounded-full border border-gray-300 text-gray-700 text-sm sm:text-base hover:bg-gray-50 transition">
+                        다시 테스트하기
+                    </a>
+                    <a
+                            href="/"
+                            class="px-5 py-2.5 rounded-full bg-primary-blue text-white text-sm sm:text-base hover:bg-indigo-700 transition shadow-md">
+                        메인으로 돌아가기
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    {{> layout/footer}}
