@@ -42,7 +42,7 @@ public class MbtiTestDataInitializer implements CommandLineRunner {
         TestEntity test = TestEntity.builder()
                 .name(TEST_NAME)
                 .description("4가지 핵심 지표를 통해 16가지 성격 유형을 알아보는 테스트입니다.")
-                .version(1)
+                .testNum(2)
                 .build();
 
         // ----------------------------------------------------------------------

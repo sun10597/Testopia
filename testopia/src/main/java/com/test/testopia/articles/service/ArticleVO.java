@@ -4,6 +4,8 @@ import com.test.testopia.articles.entity.ArticleEntity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.time.LocalDateTime;
 // ... (Getter, Setter 유지)
 
 @Getter
@@ -18,12 +20,17 @@ public class ArticleVO {
     private String memName;
     private Long memId;
 
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
+
     // 💡 ArticleEntity를 받아서 VO를 생성하는 생성자 추가 (Service에서 사용)
     public ArticleVO(ArticleEntity entity) {
         this.id = entity.getId();
         this.title = entity.getTitle();
         this.content = entity.getContent();
         this.memId = entity.getMemId();
+        this.createdAt = entity.getCreatedAt();
+        this.updatedAt = entity.getUpdatedAt();
 
         // 작성자 이름 로드 (Repository에서 JOIN FETCH 필수)
         if (entity.getMember() != null) {
@@ -36,6 +43,6 @@ public class ArticleVO {
     // 기존 toEntity()는 수정해야 합니다. AllArgsConstructor가 변경되었기 때문입니다.
     public ArticleEntity toEntity() {
         // ID, TITLE, CONTENT만 받는 생성자가 ArticleEntity에 없으므로 수정 필요
-        return new ArticleEntity(id, title, content, memId, null); // null은 member 객체입니다.
+        return new ArticleEntity(title, content, memId);
     }
 }

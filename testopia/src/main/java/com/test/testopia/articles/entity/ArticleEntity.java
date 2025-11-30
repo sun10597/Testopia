@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
@@ -17,13 +19,27 @@ public class ArticleEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column
+    @Column(nullable = false)
     private String title;
-    @Column
+    @Column(nullable = false)
     private String content;
 
-    @Column(name = "mem_id")
+    @Column(name = "mem_id", nullable = false)
     private Long memId;
+
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
+
+    @PrePersist
+    protected void onCreate() {
+        createdAt = LocalDateTime.now();
+        updatedAt = createdAt;
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        updatedAt = LocalDateTime.now();
+    }
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "mem_id", insertable = false, updatable = false)
@@ -33,11 +49,5 @@ public class ArticleEntity {
         this.title = title;
         this.content = content;
         this.memId = memId;
-    }
-
-    public ArticleEntity(Long id, String title, String content) {
-        this.id = id;
-        this.title = title;
-        this.content = content;
     }
 }

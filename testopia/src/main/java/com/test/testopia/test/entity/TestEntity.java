@@ -20,14 +20,14 @@ public class TestEntity {
     @Column(name = "test_id")
     private Long id;
 
-    @Column(nullable = false, length = 100)
+    @Column(nullable = false)
     private String name;
 
     @Column(length = 255)
     private String description;
 
     @Column(nullable = false)
-    private Integer version;
+    private Integer testNum;
 
     @OneToMany(mappedBy = "test", cascade = CascadeType.ALL, orphanRemoval = true)
     @OrderBy("orderNo ASC")
@@ -39,23 +39,6 @@ public class TestEntity {
     @Builder.Default
     private List<TestResultTypeEntity> resultTypes = new ArrayList<>();
     // =======================================================
-
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
-
-    @PrePersist
-    protected void onCreate() {
-        createdAt = LocalDateTime.now();
-        updatedAt = createdAt;
-        if (version == null) {
-            version = 1;
-        }
-    }
-
-    @PreUpdate
-    protected void onUpdate() {
-        updatedAt = LocalDateTime.now();
-    }
 
     // 연관관계 편의 메서드: Question 추가
     public void addQuestion(QuestionEntity question) {

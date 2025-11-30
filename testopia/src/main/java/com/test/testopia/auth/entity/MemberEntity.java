@@ -3,6 +3,8 @@ package com.test.testopia.auth.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Table(name = "member")
 @Getter
@@ -21,5 +23,20 @@ public class MemberEntity {
 
     private String memEmail;
     private String memName;
-    private String role;         // ROLE_USER, ROLE_ADMIN 등
+    private String role;         // ROLE_USER, ROLE_ADMIN
+
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
+
+    @PrePersist
+    protected void onCreate() {
+        createdAt = LocalDateTime.now();
+        updatedAt = createdAt;
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        updatedAt = LocalDateTime.now();
+    }
+
 }

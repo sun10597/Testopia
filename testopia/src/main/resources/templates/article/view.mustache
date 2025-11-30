@@ -1,8 +1,8 @@
 {{>layout/header}}
 
-{{#articleEntity}}
+{{#articleVO}}
     <div class="container mt-5">
-        <h1 class="fw-bold text-primary mb-4">📖 {{member.memName}}님 문의사항</h1>
+        <h1 class="fw-bold text-primary mb-4">📖 {{memName}}님 문의사항</h1>
 
         <div class="shadow-sm p-4 rounded bg-light mb-4">
             <div class="mb-3">
@@ -23,7 +23,7 @@
                onclick="return confirm('정말 삭제하시겠습니까?');">🗑 삭제</a>
         </div>
     </div>
-{{/articleEntity}}
+{{/articleVO}}
 
 {{#msg}}
     <script>

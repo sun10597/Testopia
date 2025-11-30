@@ -32,20 +32,6 @@ public class ChoiceEntity {
     @Column(nullable = false)
     private Integer score;
 
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
-
-    @PrePersist
-    protected void onCreate() {
-        createdAt = LocalDateTime.now();
-        updatedAt = createdAt;
-    }
-
-    @PreUpdate
-    protected void onUpdate() {
-        updatedAt = LocalDateTime.now();
-    }
-
     public void setQuestion(QuestionEntity question) {
         this.question = question;
     }

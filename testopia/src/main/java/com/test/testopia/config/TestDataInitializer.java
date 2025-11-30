@@ -32,20 +32,20 @@ public class TestDataInitializer implements CommandLineRunner {
 
     // 최대 총점: 20문항 * 3점/문항 = 60점
     private static final int MAX_TOTAL_SCORE = 60;
-
+    private static final String TEST_NAME = "테토/에겐 성향 테스트";
     @Override
     @Transactional
     public void run(String... args) throws Exception {
-        if (testRepository.count() > 0) {
-            System.out.println("이미 테스트 데이터가 존재합니다. 초기화 건너김.");
+        if (testRepository.findByName(TEST_NAME).isPresent()) {
+            System.out.println(TEST_NAME + " 데이터가 이미 존재합니다. 초기화 건너김.");
             return;
         }
 
         // ===== 1. 테스트 생성 (TestEntity) =====
         TestEntity test = TestEntity.builder()
-                .name("테토/에겐 성향 테스트")
+                .name(TEST_NAME)
                 .description("당신의 논리/분석(테토) 성향과 공감/관계(에겐) 성향을 알아보는 테스트입니다.")
-                .version(1)
+                .testNum(1)
                 .build();
 
         // ----------------------------------------------------------------------
@@ -61,7 +61,7 @@ public class TestDataInitializer implements CommandLineRunner {
         questions.add("스트레스를 해소할 때, 나는 논리 퍼즐이나 기술 습득 등 문제 해결 활동에 몰두하는 편이다."); // 5
         questions.add("나의 업무나 결과에 대해 비판을 받았을 때, 비판의 합리성을 판단하는 것이 감정을 추스르는 것보다 먼저이다."); // 6
         questions.add("가장 흥미로운 콘텐츠 장르는 정보 분석, 경제, 법정 등 객관적인 사실을 다루는 것이다."); // 7
-        questions.add("나는 물건을 정리할 때, 사용 빈도와 기능별 효율성을 기준으로 명확하게 분류한다."); // 8
+        questions.add("나는 물건을 정리할 때, 사용 빈도와 기능testNum별 효율성을 기준으로 명확하게 분류한다."); // 8
         questions.add("약속 시간에 늦은 상대방에게 다음부터 늦지 않을 방법을 제안하는 편이다."); // 9
         questions.add("나의 주된 관심사는 이론의 타당성이나 기술적 문제 해결에 대한 깊은 토론이다."); // 10
 
@@ -99,7 +99,7 @@ public class TestDataInitializer implements CommandLineRunner {
 
         // ===== 3. 저장 =====
         testRepository.save(test);
-        System.err.println("테토-에겐 성향 테스트 데이터 20문항(역코딩 적용)과 4가지 결과 유형이 성공적으로 저장되었습니다.");
+        System.err.println(TEST_NAME + "테토-에겐 성향 테스트 데이터 20문항과 4가지 결과 유형이 성공적으로 저장되었습니다.");
     }
 
     /**

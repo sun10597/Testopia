@@ -19,29 +19,16 @@ public class TestResultTypeEntity {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "test_id")
+    @JoinColumn(name = "test_id", nullable = false)
     private TestEntity test;
 
-    private int minScore;
-    private int maxScore;
-
+    @Column(nullable = false)
     private String resultName;
 
     @Column(length = 2000)
     private String description;
 
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+    private int minScore;
+    private int maxScore;
 
-
-    @PrePersist
-    protected void onCreate() {
-        createdAt = LocalDateTime.now();
-        updatedAt = createdAt;
-    }
-
-    @PreUpdate
-    protected void onUpdate() {
-        updatedAt = LocalDateTime.now();
-    }
 }

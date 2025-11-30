@@ -35,20 +35,6 @@ public class QuestionEntity {
     @Builder.Default   // ★ 이거 추가!
     private List<ChoiceEntity> choices = new ArrayList<>();
 
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
-
-    @PrePersist
-    protected void onCreate() {
-        createdAt = LocalDateTime.now();
-        updatedAt = createdAt;
-    }
-
-    @PreUpdate
-    protected void onUpdate() {
-        updatedAt = LocalDateTime.now();
-    }
-
     // 연관관계 편의 메서드
     public void addChoice(ChoiceEntity choice) {
         if (choices == null) {          // ★ 방어 코드 한 번 더
