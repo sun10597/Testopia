@@ -1,5 +1,6 @@
 package com.test.testopia.articles.service;
 
+import com.fasterxml.jackson.annotation.JsonFormat; // ⭐ 이 import가 필요합니다.
 import com.test.testopia.articles.entity.ArticleEntity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,11 +17,15 @@ public class ArticleVO {
     private String title;
     private String content;
 
-    // 💡 작성자 이름과 ID 필드 추가
     private String memName;
     private Long memId;
 
+    // 💡 created_at 필드에 포맷 적용
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createdAt;
+
+    // 💡 updatedAt 필드에 포맷 적용 (선택 사항)
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime updatedAt;
 
     // 💡 ArticleEntity를 받아서 VO를 생성하는 생성자 추가 (Service에서 사용)

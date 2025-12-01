@@ -1,30 +1,32 @@
 {{>layout/header}}
 
-{{#articleVO}}
-    <div class="container mt-5">
-        <h1 class="fw-bold text-primary mb-4">📝 글 수정</h1>
+<main class="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    {{#articleVO}}
+        <h1 class="text-3xl font-bold text-gray-800 mb-8">📝 글 수정</h1>
 
-        <form method="POST" action="/articles/editProc" class="shadow-sm p-4 rounded bg-light">
+        <form method="POST" action="/articles/editProc" class="bg-white rounded-xl shadow-lg p-6 max-w-2xl mx-auto">
             <input type="hidden" name="id" value="{{id}}">
 
-            <div class="mb-3">
-                <label for="title" class="form-label fw-semibold">글 제목</label>
-                <input type="text" class="form-control" id="title" name="title" value="{{title}}" required>
+            <div class="mb-6">
+                <label for="title" class="block text-lg font-semibold text-gray-700 mb-2">글 제목</label>
+                <input type="text" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-primary-blue focus:border-primary-blue"
+                       id="title" name="title" value="{{title}}" required>
             </div>
 
-            <div class="mb-3">
-                <label for="content" class="form-label fw-semibold">내용</label>
-                <textarea class="form-control" id="content" name="content" rows="8" required>{{content}}</textarea>
+            <div class="mb-8">
+                <label for="content" class="block text-lg font-semibold text-gray-700 mb-2">내용</label>
+                <textarea class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-primary-blue focus:border-primary-blue"
+                          id="content" name="content" rows="8" required>{{content}}</textarea>
             </div>
 
-            <div class="d-flex justify-content-end gap-2">
-                <a href="/articles/view/{{id}}" class="btn btn-secondary">⬅️ 뒤로</a>
-                <button type="reset" class="btn btn-light">🧹 초기화</button>
-                <button type="submit" class="btn btn-primary">💾 수정 완료</button>
+            <div class="flex justify-end space-x-3">
+                <a href="/articles/view/{{id}}" class="px-4 py-2 text-gray-700 bg-gray-200 rounded-lg hover:bg-gray-300 transition duration-150">⬅️ 뒤로</a>
+                <button type="reset" class="px-4 py-2 text-gray-700 bg-gray-100 border border-gray-300 rounded-lg hover:bg-gray-200 transition duration-150">🧹 초기화</button>
+                <button type="submit" class="px-6 py-2 text-white bg-primary-blue rounded-lg hover:bg-blue-600 font-semibold transition duration-150">💾 수정 완료</button>
             </div>
         </form>
-    </div>
-{{/articleVO}}
+    {{/articleVO}}
+</main>
 
 {{#msg}}
     <script>

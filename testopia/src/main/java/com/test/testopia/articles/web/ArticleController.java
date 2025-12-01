@@ -1,5 +1,6 @@
 package com.test.testopia.articles.web;
 
+import com.test.testopia.articles.entity.ArticleEntity;
 import com.test.testopia.articles.service.ArticleForm;
 import com.test.testopia.articles.service.ArticleService;
 import com.test.testopia.articles.service.ArticleVO;
@@ -22,26 +23,58 @@ public class ArticleController {
     @Autowired
     private ArticleService articleService;
 
+    private MemberVO getCurrentUser(OAuth2User oAuth2User) {
+        if (oAuth2User != null) {
+            Object userAttribute = oAuth2User.getAttributes().get("member");
+            if (userAttribute instanceof MemberVO memberVO) {
+                return memberVO;
+            }
+        }
+        return null;
+    }
+
+    // 💡 Helper 함수: 관리자 권한 확인 (String to int 변환)
+    private boolean isAdmin(MemberVO user) {
+        if (user == null || user.getRole() == null) {
+            return false;
+        }
+        try {
+            return Integer.parseInt(user.getRole()) == 1;
+        } catch (NumberFormatException e) {
+            // Role 값이 숫자가 아닐 경우의 처리
+            return false;
+        }
+    }
+
+
     @GetMapping("/articles/new")
-    public String newArticle(){
+    public String newArticle(
+            @AuthenticationPrincipal OAuth2User oAuth2User,
+            Model model){
+        if (oAuth2User != null) {
+            Object userAttribute = oAuth2User.getAttributes().get("member");
+
+            if (userAttribute instanceof MemberVO vo) {
+                model.addAttribute("name", vo.getMemName());
+                System.err.println("✅ 세션에서 로드된 사용자 이름: " + vo.getMemName());
+            } else {
+                model.addAttribute("name", oAuth2User.getAttribute("name"));
+            }
+        }
         return "article/new";
     }
 
     @PostMapping("/articles/newProc")
     public String newArticleProc(
             ArticleForm form,
-            @AuthenticationPrincipal OAuth2User oAuth2User){
+            @AuthenticationPrincipal OAuth2User oAuth2User,
+            RedirectAttributes redirectAttributes){
 
-        Long memId = null;
-        if (oAuth2User != null) {
-            Object userAttribute = oAuth2User.getAttributes().get("member");
-            if (userAttribute instanceof MemberVO memberVO) {
-                memId = memberVO.getMemId();
-            }
-        }
+        MemberVO currentUser = getCurrentUser(oAuth2User);
+        Long memId = currentUser != null ? currentUser.getMemId() : null;
 
         if (memId == null) {
-            System.err.println("🚨 로그인 상태가 아닙니다. 작성 불가.");
+            redirectAttributes.addFlashAttribute("msg", "로그인이 필요합니다.");
             return "redirect:/login";
         }
 
@@ -49,57 +82,184 @@ public class ArticleController {
         voForCreation.setTitle(form.getTitle());
         voForCreation.setContent(form.getContent());
 
-        ArticleVO result = articleService.createArticle(voForCreation, memId);
+        articleService.createArticle(voForCreation, memId);
 
         return "redirect:/articles/list";
     }
 
+    // 상세 조회 - 열람 권한 검증 추가
     @GetMapping("/articles/view/{id}")
     public String articleView(
             @PathVariable(value = "id") Long id,
-            Model model){
+            @AuthenticationPrincipal OAuth2User oAuth2User,
+            Model model,
+            RedirectAttributes redirectAttributes){
+
+        if (oAuth2User != null) {
+            Object userAttribute = oAuth2User.getAttributes().get("member");
+
+            if (userAttribute instanceof MemberVO vo) {
+                model.addAttribute("name", vo.getMemName());
+                System.err.println("✅ 세션에서 로드된 사용자 이름: " + vo.getMemName());
+            } else {
+                model.addAttribute("name", oAuth2User.getAttribute("name"));
+            }
+        }
+
+        MemberVO currentUser = getCurrentUser(oAuth2User);
+        if (currentUser == null) {
+            redirectAttributes.addFlashAttribute("msg", "로그인이 필요합니다.");
+            return "redirect:/login";
+        }
 
         ArticleVO articleVO = articleService.viewArticle(id);
         if (articleVO == null) {
-            // 게시글이 없는 경우 처리
+            redirectAttributes.addFlashAttribute("msg", "권한이 없습니다.");
             return "redirect:/articles/list";
         }
+
+        // 권한 검증: 작성자(memId 일치) 또는 관리자(Role == 1)
+        boolean isAuthor = articleVO.getMemId().equals(currentUser.getMemId());
+        boolean isAdmin = isAdmin(currentUser); // 💡 수정된 부분
+        boolean canAccess = isAuthor || isAdmin;
+
+        if (!canAccess) {
+            redirectAttributes.addFlashAttribute("msg", "권한이 없습니다.");
+            return "redirect:/articles/list";
+        }
+
         model.addAttribute("articleVO", articleVO);
+        model.addAttribute("canModify", isAuthor || isAdmin);
+
         return "article/view";
     }
 
     @GetMapping("/articles/list")
-    public String articleList(Model model){
+    public String articleList(
+            Model model,
+            @AuthenticationPrincipal OAuth2User oAuth2User){
+
+        if (oAuth2User != null) {
+            Object userAttribute = oAuth2User.getAttributes().get("member");
+
+            if (userAttribute instanceof MemberVO vo) {
+                model.addAttribute("name", vo.getMemName());
+                System.err.println("✅ 세션에서 로드된 사용자 이름: " + vo.getMemName());
+            } else {
+                model.addAttribute("name", oAuth2User.getAttribute("name"));
+            }
+        }
+
         List<ArticleVO> articleList= articleService.selectArticleList();
         model.addAttribute("articleList", articleList);
         return "article/list";
     }
 
+    // 삭제 처리 - 삭제 권한 검증 추가
     @GetMapping("/articles/delete/{id}")
     public String deleteArticle(
             @PathVariable(value = "id") Long id,
+            @AuthenticationPrincipal OAuth2User oAuth2User,
             RedirectAttributes redirectAttributes){
+
+        MemberVO currentUser = getCurrentUser(oAuth2User);
+        if (currentUser == null) {
+            redirectAttributes.addFlashAttribute("msg", "로그인이 필요합니다.");
+            return "redirect:/login";
+        }
+
+        ArticleVO articleVO = articleService.viewArticle(id);
+        if (articleVO == null) {
+            redirectAttributes.addFlashAttribute("msg", "권한이 없습니다.");
+            return "redirect:/articles/list";
+        }
+
+        // 권한 검증 로직
+        boolean isAuthor = articleVO.getMemId().equals(currentUser.getMemId());
+        boolean isAdmin = isAdmin(currentUser); // 💡 수정된 부분
+
+        if (!isAuthor && !isAdmin) {
+            redirectAttributes.addFlashAttribute("msg", "권한이 없습니다.");
+            return "redirect:/articles/view/" + id;
+        }
+
         articleService.deleteArticle(id);
         redirectAttributes.addFlashAttribute("msg","삭제되었습니다.");
         return "redirect:/articles/list";
     }
 
+    // 수정 페이지 - 수정 권한 검증 추가
     @GetMapping("/articles/edit/{id}")
     public String articleEdit(
             @PathVariable(value = "id") Long id,
-            Model model){
+            @AuthenticationPrincipal OAuth2User oAuth2User,
+            Model model,
+            RedirectAttributes redirectAttributes){
+
+        if (oAuth2User != null) {
+            Object userAttribute = oAuth2User.getAttributes().get("member");
+
+            if (userAttribute instanceof MemberVO vo) {
+                model.addAttribute("name", vo.getMemName());
+                System.err.println("✅ 세션에서 로드된 사용자 이름: " + vo.getMemName());
+            } else {
+                model.addAttribute("name", oAuth2User.getAttribute("name"));
+            }
+        }
+
+        MemberVO currentUser = getCurrentUser(oAuth2User);
+        if (currentUser == null) {
+            redirectAttributes.addFlashAttribute("msg", "로그인이 필요합니다.");
+            return "redirect:/login";
+        }
+
         ArticleVO articleVO = articleService.viewArticle(id);
         if (articleVO == null) {
+            redirectAttributes.addFlashAttribute("msg", "권한이 없습니다.");
             return "redirect:/articles/list";
         }
+
+        // 권한 검증 로직
+        boolean isAuthor = articleVO.getMemId().equals(currentUser.getMemId());
+        boolean isAdmin = isAdmin(currentUser); // 💡 수정된 부분
+
+        if (!isAuthor && !isAdmin) {
+            redirectAttributes.addFlashAttribute("msg", "권한이 없습니다.");
+            return "redirect:/articles/view/" + id;
+        }
+
         model.addAttribute("articleVO", articleVO);
         return  "article/edit";
     }
 
+    // 수정 처리 - 권한 검증 추가
     @PostMapping("/articles/editProc")
     public String articleEditProc(
             RedirectAttributes redirectAttributes,
-            ArticleForm form){
+            ArticleForm form,
+            @AuthenticationPrincipal OAuth2User oAuth2User){
+
+        MemberVO currentUser = getCurrentUser(oAuth2User);
+        if (currentUser == null) {
+            redirectAttributes.addFlashAttribute("msg", "로그인이 필요합니다.");
+            return "redirect:/login";
+        }
+
+        ArticleVO existingVO = articleService.viewArticle(form.getId());
+        if (existingVO == null) {
+            redirectAttributes.addFlashAttribute("msg", "권한이 없습니다.");
+            return "redirect:/articles/list";
+        }
+
+        // 권한 검증 로직 (2차 방어)
+        boolean isAuthor = existingVO.getMemId().equals(currentUser.getMemId());
+        boolean isAdmin = isAdmin(currentUser); // 💡 수정된 부분
+
+        if (!isAuthor && !isAdmin) {
+            redirectAttributes.addFlashAttribute("msg", "권한이 없습니다.");
+            return "redirect:/articles/view/" + form.getId();
+        }
+
 
         ArticleVO voForUpdate = new ArticleVO();
         voForUpdate.setId(form.getId());
@@ -109,8 +269,7 @@ public class ArticleController {
         ArticleVO updateVO = articleService.updateArticle(voForUpdate);
 
         if (updateVO == null) {
-            // 업데이트 실패 (게시글 ID 없음 등) 처리
-            redirectAttributes.addFlashAttribute("msg", "수정 실패: 게시글을 찾을 수 없습니다.");
+            redirectAttributes.addFlashAttribute("msg", "권한이 없습니다.");
             return "redirect:/articles/list";
         }
 
