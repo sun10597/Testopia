@@ -1,10 +1,9 @@
 package com.test.testopia.articles.web;
 
-import com.test.testopia.articles.entity.ArticleEntity;
 import com.test.testopia.articles.service.ArticleForm;
 import com.test.testopia.articles.service.ArticleService;
 import com.test.testopia.articles.service.ArticleVO;
-import com.test.testopia.auth.service.MemberVO;
+import com.test.testopia.auth.DTO.MemberVO;
 import org.springframework.ui.Model;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -38,12 +37,7 @@ public class ArticleController {
         if (user == null || user.getRole() == null) {
             return false;
         }
-        try {
-            return Integer.parseInt(user.getRole()) == 1;
-        } catch (NumberFormatException e) {
-            // Role 값이 숫자가 아닐 경우의 처리
-            return false;
-        }
+        return "1".equals(user.getRole());
     }
 
 
@@ -53,14 +47,20 @@ public class ArticleController {
             Model model){
         if (oAuth2User != null) {
             Object userAttribute = oAuth2User.getAttributes().get("member");
-
             if (userAttribute instanceof MemberVO vo) {
                 model.addAttribute("name", vo.getMemName());
+                boolean isAdminUser = "1".equals(vo.getRole());
+                model.addAttribute("isAdmin", isAdminUser);
                 System.err.println("✅ 세션에서 로드된 사용자 이름: " + vo.getMemName());
+                System.err.println("✅ 세션에서 로드된 사용자 Role: " + vo.getRole());
             } else {
                 model.addAttribute("name", oAuth2User.getAttribute("name"));
+                model.addAttribute("isAdmin", false);
             }
+        } else {
+            model.addAttribute("isAdmin", false);
         }
+
         return "article/new";
     }
 
@@ -94,16 +94,20 @@ public class ArticleController {
             @AuthenticationPrincipal OAuth2User oAuth2User,
             Model model,
             RedirectAttributes redirectAttributes){
-
         if (oAuth2User != null) {
             Object userAttribute = oAuth2User.getAttributes().get("member");
-
             if (userAttribute instanceof MemberVO vo) {
                 model.addAttribute("name", vo.getMemName());
+                boolean isAdminUser = "1".equals(vo.getRole());
+                model.addAttribute("isAdmin", isAdminUser);
                 System.err.println("✅ 세션에서 로드된 사용자 이름: " + vo.getMemName());
+                System.err.println("✅ 세션에서 로드된 사용자 Role: " + vo.getRole());
             } else {
                 model.addAttribute("name", oAuth2User.getAttribute("name"));
+                model.addAttribute("isAdmin", false);
             }
+        } else {
+            model.addAttribute("isAdmin", false);
         }
 
         MemberVO currentUser = getCurrentUser(oAuth2User);
@@ -138,16 +142,20 @@ public class ArticleController {
     public String articleList(
             Model model,
             @AuthenticationPrincipal OAuth2User oAuth2User){
-
         if (oAuth2User != null) {
             Object userAttribute = oAuth2User.getAttributes().get("member");
-
             if (userAttribute instanceof MemberVO vo) {
                 model.addAttribute("name", vo.getMemName());
+                boolean isAdminUser = "1".equals(vo.getRole());
+                model.addAttribute("isAdmin", isAdminUser);
                 System.err.println("✅ 세션에서 로드된 사용자 이름: " + vo.getMemName());
+                System.err.println("✅ 세션에서 로드된 사용자 Role: " + vo.getRole());
             } else {
                 model.addAttribute("name", oAuth2User.getAttribute("name"));
+                model.addAttribute("isAdmin", false);
             }
+        } else {
+            model.addAttribute("isAdmin", false);
         }
 
         List<ArticleVO> articleList= articleService.selectArticleList();
@@ -195,16 +203,20 @@ public class ArticleController {
             @AuthenticationPrincipal OAuth2User oAuth2User,
             Model model,
             RedirectAttributes redirectAttributes){
-
         if (oAuth2User != null) {
             Object userAttribute = oAuth2User.getAttributes().get("member");
-
             if (userAttribute instanceof MemberVO vo) {
                 model.addAttribute("name", vo.getMemName());
+                boolean isAdminUser = "1".equals(vo.getRole());
+                model.addAttribute("isAdmin", isAdminUser);
                 System.err.println("✅ 세션에서 로드된 사용자 이름: " + vo.getMemName());
+                System.err.println("✅ 세션에서 로드된 사용자 Role: " + vo.getRole());
             } else {
                 model.addAttribute("name", oAuth2User.getAttribute("name"));
+                model.addAttribute("isAdmin", false);
             }
+        } else {
+            model.addAttribute("isAdmin", false);
         }
 
         MemberVO currentUser = getCurrentUser(oAuth2User);

@@ -1,10 +1,12 @@
 package com.test.testopia.auth.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.test.testopia.articles.entity.ArticleEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "member")
@@ -26,9 +28,9 @@ public class MemberEntity {
     private String memName;
     private String role;         // ROLE_USER, ROLE_ADMIN
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @Column(columnDefinition = "DATETIME(0)")
     private LocalDateTime createdAt;
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @Column(columnDefinition = "DATETIME(0)")
     private LocalDateTime updatedAt;
 
     @PrePersist
@@ -41,5 +43,8 @@ public class MemberEntity {
     protected void onUpdate() {
         updatedAt = LocalDateTime.now();
     }
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ArticleEntity> articles;
 
 }

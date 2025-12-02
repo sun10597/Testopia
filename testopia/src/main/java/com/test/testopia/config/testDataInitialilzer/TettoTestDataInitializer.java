@@ -1,4 +1,4 @@
-package com.test.testopia.config;
+package com.test.testopia.config.testDataInitialilzer;
 
 import com.test.testopia.test.entity.ChoiceEntity;
 import com.test.testopia.test.entity.QuestionEntity;
@@ -20,7 +20,7 @@ import java.util.ArrayList;
  */
 @Component
 @RequiredArgsConstructor
-public class TestDataInitializer implements CommandLineRunner {
+public class TettoTestDataInitializer implements CommandLineRunner {
 
     private final TestRepository testRepository;
 
@@ -45,7 +45,7 @@ public class TestDataInitializer implements CommandLineRunner {
         TestEntity test = TestEntity.builder()
                 .name(TEST_NAME)
                 .description("당신의 논리/분석(테토) 성향과 공감/관계(에겐) 성향을 알아보는 테스트입니다.")
-                .testNum(1)
+                .testNum(2)
                 .build();
 
         // ----------------------------------------------------------------------

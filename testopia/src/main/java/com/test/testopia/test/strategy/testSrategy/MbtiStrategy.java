@@ -1,11 +1,12 @@
-package com.test.testopia.test.service.strategy;
+package com.test.testopia.test.strategy.testSrategy;
 
 import com.test.testopia.test.entity.ChoiceEntity;
 import com.test.testopia.test.entity.TestEntity;
 import com.test.testopia.test.entity.TestResultTypeEntity;
 import com.test.testopia.test.repository.ChoiceRepository;
 import com.test.testopia.test.repository.TestResultTypeRepository;
-import com.test.testopia.test.service.TestResultVO;
+import com.test.testopia.test.DTO.TestResultVO;
+import com.test.testopia.test.strategy.ITestResultStrategy;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

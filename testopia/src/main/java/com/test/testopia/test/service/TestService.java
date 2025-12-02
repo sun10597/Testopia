@@ -1,11 +1,12 @@
 package com.test.testopia.test.service;
 
+import com.test.testopia.test.DTO.TestResultVO;
 import com.test.testopia.test.entity.*;
 import com.test.testopia.test.repository.ChoiceRepository;
 import com.test.testopia.test.repository.TestRepository;
 import com.test.testopia.test.repository.TestResultTypeRepository;
-import com.test.testopia.test.service.strategy.ITestResultStrategy;
-import com.test.testopia.test.service.strategy.TestStrategyFactory;
+import com.test.testopia.test.strategy.ITestResultStrategy;
+import com.test.testopia.test.strategy.TestStrategyFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

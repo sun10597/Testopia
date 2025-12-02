@@ -1,11 +1,12 @@
-package com.test.testopia.test.service.strategy;
+package com.test.testopia.test.strategy.testSrategy;
 
 import com.test.testopia.test.entity.ChoiceEntity;
 import com.test.testopia.test.entity.TestEntity;
 import com.test.testopia.test.entity.TestResultTypeEntity;
 import com.test.testopia.test.repository.ChoiceRepository;
 import com.test.testopia.test.repository.TestResultTypeRepository;
-import com.test.testopia.test.service.TestResultVO;
+import com.test.testopia.test.DTO.TestResultVO;
+import com.test.testopia.test.strategy.ITestResultStrategy;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -16,7 +17,7 @@ import java.util.stream.Collectors;
  * 테토/에겐 테스트와 같은 '단일 총점' 기반 테스트 결과를 계산하는 전략 구현체입니다.
  */
 @Component
-public class SingleScoreStrategy implements ITestResultStrategy {
+public class TettoStrategy implements ITestResultStrategy {
 
     @Override
     public String getTestName() {
