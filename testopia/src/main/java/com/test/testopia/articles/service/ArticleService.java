@@ -1,8 +1,13 @@
 package com.test.testopia.articles.service;
 
+import com.test.testopia.articles.dto.ArticleVO;
 import com.test.testopia.articles.entity.ArticleEntity;
 import com.test.testopia.articles.repository.ArticleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
@@ -16,16 +21,19 @@ public class ArticleService {
     @Autowired
     private ArticleRepository articleRepository;
 
-    public List<ArticleVO> selectArticleList(){
-        List<ArticleEntity> entities = articleRepository.findAllWithMember();
-        entities.sort(Comparator.comparing(ArticleEntity::getId).reversed());
-        return entities.stream().map(ArticleVO::new).collect(Collectors.toList());
+    public Page<ArticleVO> selectArticleList(int page) {
+        Pageable pageable = PageRequest.of(page, 10, Sort.by(Sort.Direction.DESC, "id"));
+
+        return articleRepository.findAllWithMember(pageable)
+                .map(ArticleVO::from);
     }
 
     public ArticleVO createArticle(ArticleVO vo, Long memId) {
         ArticleEntity entity = new ArticleEntity(vo.getTitle(), vo.getContent(), memId);
         ArticleEntity savedEntity = articleRepository.save(entity);
-        return new ArticleVO(savedEntity);
+
+        // ✅ 저장된 엔티티를 VO로 변환
+        return ArticleVO.from(savedEntity);
     }
 
     public ArticleVO viewArticle(Long id) {
@@ -35,7 +43,8 @@ public class ArticleService {
             return null;
         }
 
-        return new ArticleVO(entity.get());
+        // ✅ 여기서도 from 사용
+        return ArticleVO.from(entity.get());
     }
 
     public void deleteArticle(Long id) {
@@ -49,7 +58,7 @@ public class ArticleService {
         existingEntity.setTitle(vo.getTitle());
         existingEntity.setContent(vo.getContent());
 
-        ArticleEntity updateEntity = articleRepository.save(existingEntity);
-        return new ArticleVO(updateEntity);
+        ArticleEntity updatedEntity = articleRepository.save(existingEntity);
+        return ArticleVO.from(updatedEntity);
     }
 }

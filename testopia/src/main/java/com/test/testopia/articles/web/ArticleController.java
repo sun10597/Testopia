@@ -1,9 +1,10 @@
 package com.test.testopia.articles.web;
 
-import com.test.testopia.articles.service.ArticleForm;
+import com.test.testopia.articles.dto.ArticleForm;
 import com.test.testopia.articles.service.ArticleService;
-import com.test.testopia.articles.service.ArticleVO;
-import com.test.testopia.auth.DTO.MemberVO;
+import com.test.testopia.articles.dto.ArticleVO;
+import com.test.testopia.auth.dto.MemberVO;
+import org.springframework.data.domain.Page;
 import org.springframework.ui.Model;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -12,9 +13,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Controller
 public class ArticleController {
@@ -140,16 +146,15 @@ public class ArticleController {
 
     @GetMapping("/articles/list")
     public String articleList(
+            @RequestParam(defaultValue = "0") int page,
             Model model,
-            @AuthenticationPrincipal OAuth2User oAuth2User){
+            @AuthenticationPrincipal OAuth2User oAuth2User) {
         if (oAuth2User != null) {
             Object userAttribute = oAuth2User.getAttributes().get("member");
             if (userAttribute instanceof MemberVO vo) {
                 model.addAttribute("name", vo.getMemName());
                 boolean isAdminUser = "1".equals(vo.getRole());
                 model.addAttribute("isAdmin", isAdminUser);
-                System.err.println("✅ 세션에서 로드된 사용자 이름: " + vo.getMemName());
-                System.err.println("✅ 세션에서 로드된 사용자 Role: " + vo.getRole());
             } else {
                 model.addAttribute("name", oAuth2User.getAttribute("name"));
                 model.addAttribute("isAdmin", false);
@@ -158,8 +163,26 @@ public class ArticleController {
             model.addAttribute("isAdmin", false);
         }
 
-        List<ArticleVO> articleList= articleService.selectArticleList();
-        model.addAttribute("articleList", articleList);
+        // 🔹 페이징된 게시글 조회
+        Page<ArticleVO> articlePage = articleService.selectArticleList(page);
+
+        model.addAttribute("articleList", articlePage.getContent());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", articlePage.getTotalPages());
+
+        // 🔹 페이지 번호 목록 생성 (1,2,3,...)
+        List<Map<String, Object>> pages = IntStream.range(0, articlePage.getTotalPages())
+                .mapToObj(i -> {
+                    Map<String, Object> m = new HashMap<>();
+                    m.put("index", i);          // ?page=에 들어갈 값 (0부터)
+                    m.put("number", i + 1);     // 화면에 보이는 페이지 번호 (1부터)
+                    m.put("isCurrent", i == page);
+                    return m;
+                })
+                .collect(Collectors.toList());
+
+        model.addAttribute("pages", pages);
+
         return "article/list";
     }
 

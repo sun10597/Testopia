@@ -1,6 +1,5 @@
-package com.test.testopia.articles.service; // Controller와 가까운 패키지에 위치
+package com.test.testopia.articles.dto; // Controller와 가까운 패키지에 위치
 
-import com.test.testopia.articles.service.ArticleVO;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

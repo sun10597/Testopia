@@ -1,8 +1,8 @@
 package com.test.testopia.test.web;
 
-import com.test.testopia.auth.DTO.MemberVO;
+import com.test.testopia.auth.dto.MemberVO;
 import com.test.testopia.test.entity.TestEntity;
-import com.test.testopia.test.DTO.TestResultVO;
+import com.test.testopia.test.dto.TestResultVO;
 import com.test.testopia.test.service.TestService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;

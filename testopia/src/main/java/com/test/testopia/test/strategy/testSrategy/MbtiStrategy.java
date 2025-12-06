@@ -5,7 +5,7 @@ import com.test.testopia.test.entity.TestEntity;
 import com.test.testopia.test.entity.TestResultTypeEntity;
 import com.test.testopia.test.repository.ChoiceRepository;
 import com.test.testopia.test.repository.TestResultTypeRepository;
-import com.test.testopia.test.DTO.TestResultVO;
+import com.test.testopia.test.dto.TestResultVO;
 import com.test.testopia.test.strategy.ITestResultStrategy;
 import org.springframework.stereotype.Component;
 

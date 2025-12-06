@@ -1,6 +1,6 @@
 package com.test.testopia.web;
 
-import com.test.testopia.auth.DTO.MemberVO;
+import com.test.testopia.auth.dto.MemberVO;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;

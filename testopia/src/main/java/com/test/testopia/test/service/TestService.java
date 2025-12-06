@@ -1,6 +1,6 @@
 package com.test.testopia.test.service;
 
-import com.test.testopia.test.DTO.TestResultVO;
+import com.test.testopia.test.dto.TestResultVO;
 import com.test.testopia.test.entity.*;
 import com.test.testopia.test.repository.ChoiceRepository;
 import com.test.testopia.test.repository.TestRepository;

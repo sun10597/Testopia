@@ -1,4 +1,4 @@
-package com.test.testopia.auth.DTO;
+package com.test.testopia.auth.dto;
 
 import lombok.Getter;
 import lombok.Setter;

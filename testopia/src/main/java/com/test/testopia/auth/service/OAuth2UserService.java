@@ -1,6 +1,6 @@
 package com.test.testopia.auth.service;
 
-import com.test.testopia.auth.DTO.MemberVO;
+import com.test.testopia.auth.dto.MemberVO;
 import com.test.testopia.auth.entity.MemberEntity;
 import com.test.testopia.auth.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -94,7 +94,7 @@ public class OAuth2UserService extends DefaultOAuth2UserService {
                                 .role("0")
                                 .build())
                 );
-        MemberVO vo = new MemberVO(member);
+        MemberVO vo = MemberVO.from(member);
 
         // ★★★ Spring Security에서 사용할 OAuth2User 생성 ★★★
         return new DefaultOAuth2User(

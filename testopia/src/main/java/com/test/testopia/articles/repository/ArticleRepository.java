@@ -1,6 +1,8 @@
 package com.test.testopia.articles.repository;
 
 import com.test.testopia.articles.entity.ArticleEntity;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -12,7 +14,7 @@ public  interface ArticleRepository extends CrudRepository<ArticleEntity, Long> 
 
     // 💡 목록 조회 시 작성자 정보 JOIN FETCH
     @Query("SELECT a FROM ArticleEntity a JOIN FETCH a.member")
-    List<ArticleEntity> findAllWithMember();
+    Page<ArticleEntity> findAllWithMember(Pageable pageable);
 
     // 💡 상세 조회 시 작성자 정보 JOIN FETCH
     @Query("SELECT a FROM ArticleEntity a JOIN FETCH a.member WHERE a.id = :id")

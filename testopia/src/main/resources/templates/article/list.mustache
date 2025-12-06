@@ -34,6 +34,23 @@
             </tbody>
         </table>
     </div>
+    {{#totalPages}}
+        <div class="flex justify-center mt-8 space-x-2">
+            {{#pages}}
+                {{#isCurrent}}
+                    <span class="px-4 py-2 bg-primary-blue text-white rounded-md text-sm font-semibold">
+                        {{number}}
+                    </span>
+                {{/isCurrent}}
+                {{^isCurrent}}
+                    <a href="/articles/list?page={{index}}"
+                    class="px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-md text-sm text-gray-700">
+                    {{number}}
+                    </a>
+                {{/isCurrent}}
+            {{/pages}}
+        </div>
+    {{/totalPages}}
 </main>
 
 {{#msg}}
