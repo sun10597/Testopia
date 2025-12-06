@@ -1,0 +1,46 @@
+{{>layout/header}}
+
+<main class="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="flex justify-between items-center mb-8">
+        <h1 class="text-3xl font-bold text-gray-800">회원관리</h1>
+    </div>
+
+    <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+        <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50">
+            <tr>
+                <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider w-1/6">회원명</th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-3/6">이메일</th>
+                <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider w-1/6">생성 일자</th>
+                <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider w-1/6">역할(일반=0/관리자=1)</th>
+            </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-200">
+            {{#memberList}}
+                <tr onclick="location.href='/admin/members/view/{{memId}}'" class="hover:bg-gray-50 transition duration-150">
+                    <td class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium text-gray-900">{{memName}}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{{memEmail}}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-center text-sm text-gray-500">{{CreatedAt}}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-center text-sm text-gray-700">{{role}}</td>
+                </tr>
+            {{/memberList}}
+
+            {{^memberList}}
+                <tr>
+                    <td colspan="5" class="px-6 py-10 text-center text-base text-gray-500">
+                        등록된 회원이 없습니다 😢
+                    </td>
+                </tr>
+            {{/memberList}}
+            </tbody>
+        </table>
+    </div>
+</main>
+
+{{#msg}}
+    <script>
+        alert("{{msg}}");
+    </script>
+{{/msg}}
+
+{{>layout/footer}}

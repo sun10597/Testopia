@@ -5,6 +5,7 @@ import com.test.testopia.articles.repository.ArticleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.Optional;
@@ -17,6 +18,7 @@ public class ArticleService {
 
     public List<ArticleVO> selectArticleList(){
         List<ArticleEntity> entities = articleRepository.findAllWithMember();
+        entities.sort(Comparator.comparing(ArticleEntity::getId).reversed());
         return entities.stream().map(ArticleVO::new).collect(Collectors.toList());
     }
 

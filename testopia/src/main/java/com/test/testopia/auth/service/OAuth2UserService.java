@@ -1,7 +1,8 @@
 package com.test.testopia.auth.service;
 
+import com.test.testopia.auth.DTO.MemberVO;
 import com.test.testopia.auth.entity.MemberEntity;
-import com.test.testopia.auth.entity.MemberRepository;
+import com.test.testopia.auth.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;

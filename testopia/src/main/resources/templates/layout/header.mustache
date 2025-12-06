@@ -23,7 +23,6 @@
         }
     </script>
     <style>
-        /* 부드러운 전환 효과를 위한 CSS */
         .test-card {
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
@@ -36,17 +35,22 @@
 </head>
 <body class="bg-primary-light min-h-screen antialiased">
 
-<!-- 네비게이션 및 헤더 섹션 -->
 <header class="bg-white shadow-md">
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
         <h1 class="text-3xl font-extrabold text-primary-blue tracking-tight"><a  href="/">Testopia</a></h1>
 
-        <!-- 로그인/사용자 정보 섹션 (Handlebars 템플릿 구조 유지) -->
         <div class="flex items-center space-x-4">
             {{#name}}
-                <!-- 로그인 상태일 때 -->
                 <div class="text-right">
-                    <p class="text-sm font-semibold text-gray-700">안녕하세요, <strong>{{name}}</strong>님</p>
+                    <p class="text-sm font-semibold text-gray-700">안녕하세요,
+                        {{#isAdmin}}
+                            <a href="/admin/members/list" class="text-primary-blue hover:text-indigo-700 transition duration-150 underline decoration-2 underline-offset-2">
+                                <strong>{{name}}</strong>
+                            </a>
+                        {{/isAdmin}}
+                        {{^isAdmin}}
+                            <strong>{{name}}</strong>
+                        {{/isAdmin}}</p>
                 </div>
                 <a href="/logout" class="px-4 py-2 text-sm font-medium text-red-600 border border-red-200 rounded-full hover:bg-red-50 transition duration-150">
                     로그아웃
@@ -54,12 +58,10 @@
             {{/name}}
 
             {{^name}}
-                <!-- 로그아웃 상태일 때 -->
                 <a href="/login" class="px-5 py-2 text-sm font-medium text-white bg-primary-blue rounded-full hover:bg-indigo-700 shadow-lg transition duration-150">
                     로그인 하러가기
                 </a>
             {{/name}}
         </div>
-        <!-- End 로그인/사용자 정보 섹션 -->
     </div>
 </header>

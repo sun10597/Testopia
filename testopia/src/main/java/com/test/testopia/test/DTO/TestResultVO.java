@@ -1,4 +1,4 @@
-package com.test.testopia.test.service;
+package com.test.testopia.test.DTO;
 
 import lombok.*;
 

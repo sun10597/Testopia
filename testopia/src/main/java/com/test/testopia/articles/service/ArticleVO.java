@@ -20,12 +20,8 @@ public class ArticleVO {
     private String memName;
     private Long memId;
 
-    // 💡 created_at 필드에 포맷 적용
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createdAt;
 
-    // 💡 updatedAt 필드에 포맷 적용 (선택 사항)
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime updatedAt;
 
     // 💡 ArticleEntity를 받아서 VO를 생성하는 생성자 추가 (Service에서 사용)

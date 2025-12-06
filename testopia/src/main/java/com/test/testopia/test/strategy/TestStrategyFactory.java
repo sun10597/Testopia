@@ -1,4 +1,4 @@
-package com.test.testopia.test.service.strategy;
+package com.test.testopia.test.strategy;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

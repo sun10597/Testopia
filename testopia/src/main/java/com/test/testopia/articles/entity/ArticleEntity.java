@@ -1,11 +1,15 @@
 package com.test.testopia.articles.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import com.test.testopia.auth.entity.MemberEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 
@@ -27,7 +31,11 @@ public class ArticleEntity {
     @Column(name = "mem_id", nullable = false)
     private Long memId;
 
+    @CreationTimestamp
+    @Column(columnDefinition = "DATETIME(0)")
     private LocalDateTime createdAt;
+    @CreationTimestamp
+    @Column(columnDefinition = "DATETIME(0)")
     private LocalDateTime updatedAt;
 
     @PrePersist
