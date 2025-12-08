@@ -16,7 +16,6 @@ import java.util.List;
 public class TestEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "test_id")
     private Long id;
 

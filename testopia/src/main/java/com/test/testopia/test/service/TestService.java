@@ -46,6 +46,4 @@ public class TestService {
                 testResultTypeRepository
         );
     }
-
-    // 기존의 public TestResultVO testResult(...) 메서드는 이 메서드로 대체됩니다.
 }

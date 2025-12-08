@@ -43,6 +43,7 @@ public class TettoTestDataInitializer implements CommandLineRunner {
 
         // ===== 1. 테스트 생성 (TestEntity) =====
         TestEntity test = TestEntity.builder()
+                .id(2L)
                 .name(TEST_NAME)
                 .description("당신의 논리/분석(테토) 성향과 공감/관계(에겐) 성향을 알아보는 테스트입니다.")
                 .testNum(2)
@@ -137,8 +138,13 @@ public class TettoTestDataInitializer implements CommandLineRunner {
                 .test(test)
                 .minScore(46)
                 .maxScore(MAX_TOTAL_SCORE)
-                .resultName("테토 심화형 (Systematic Thinker)")
-                .description("논리/분석 성향이 압도적으로 우세. 문제 해결 능력 탁월, 논리와 효율성을 최우선. 감정적 요소에 취약할 수 있음.")
+                .resultName("테토 심화형")
+                .description(
+                        "●당신은 철저한 논리와 분석을 기반으로 세상을 바라보는 전략가입니다. \n"
+                         +"●문제 상황에서도 감정에 휘둘리지 않고 핵심을 정확히 파악해 해결책을 제시합니다. \n"
+                                +"●다만 상대의 감정 신호를 놓치면 관계에서 거리감이 생길 수 있으니, 가끔은 따뜻한 한마디가 큰 힘이 될 수 있습니다."
+                )
+
                 .build();
 
         // 2. 테토 우위형 (Balanced Analyst) - 31점 ~ 45점
@@ -146,8 +152,13 @@ public class TettoTestDataInitializer implements CommandLineRunner {
                 .test(test)
                 .minScore(31)
                 .maxScore(45)
-                .resultName("테토 우위형 (Balanced Analyst)")
-                .description("테토 성향이 에겐 성향보다 명확하게 우세. 논리적 분석이 기본이나, 관계의 중요성도 이해하고 균형을 잡으려 노력하는 합리적 유형.")
+                .resultName("테토 우위형")
+                .description(
+                        "●이성적인 판단과 논리적 사고가 우선인 사람입니다.\n" +
+                                "●효율적인 선택을 선호하면서도, 필요할 때는 관계의 중요성도 고려하려 노력합니다.\n" +
+                                "●균형 잡힌 사고 덕분에 다양한 상황에서 합리적인 결정을 내릴 수 있습니다."
+                )
+
                 .build();
 
         // 3. 에겐 우위형 (Empathetic Communicator) - 16점 ~ 30점
@@ -155,8 +166,13 @@ public class TettoTestDataInitializer implements CommandLineRunner {
                 .test(test)
                 .minScore(16)
                 .maxScore(30)
-                .resultName("에겐 우위형 (Empathetic Communicator)")
-                .description("에겐 성향이 테토 성향보다 명확하게 우세. 관계와 공감을 중시하며, 타인의 감정에 민감함. 논리보다는 분위기와 조화를 우선함.")
+                .resultName("에겐 우위형")
+                .description(
+                        "●타인의 감정과 분위기를 빠르게 읽어내는 공감형 성향을 지녔습니다.\n" +
+                                "●상대가 어떤 감정을 느끼는지 자연스럽게 이해하며, 주변 사람에게 편안함을 주는 스타일입니다.\n" +
+                                "●다만 감정에 치우치면 결정을 미루거나 지칠 수 있어, 때로는 명확한 기준 설정이 도움이 됩니다."
+                )
+
                 .build();
 
         // 4. 에겐 심화형 (Relational Intuitive) - 0점 ~ 15점
@@ -164,8 +180,13 @@ public class TettoTestDataInitializer implements CommandLineRunner {
                 .test(test)
                 .minScore(0)
                 .maxScore(15)
-                .resultName("에겐 심화형 (Relational Intuitive)")
-                .description("공감/관계 성향이 압도적으로 우세. 정서적 교감과 인간적 가치를 최우선. 직감과 관계를 통해 세상을 이해함. 규칙이나 논쟁을 피하려 함.")
+                .resultName("에겐 심화형")
+                .description(
+                        "●정서적 유대와 관계의 조화를 무엇보다 중요하게 여기는 사람입니다.\n" +
+                                "●타인의 마음을 잘 돌보고 따뜻한 분위기를 만드는 데 탁월합니다.\n" +
+                                "●그러나 갈등이나 논쟁을 피하려다 자신의 의견이 흐려질 수 있어, '나의 기준'을 지키는 연습이 필요합니다."
+                )
+
                 .build();
 
         return List.of(r1, r2, r3, r4);
