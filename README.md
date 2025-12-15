@@ -3,6 +3,9 @@
 
 Spring Boot와 OAuth2를 활용해  
 소셜 로그인과 동적 성향 테스트 기능을 구현한 개인 웹 프로젝트입니다.
+
+---
+
 <img width="2559" height="1342" alt="image" src="https://github.com/user-attachments/assets/39d88ec8-0743-4c5d-b561-4189706aee34" />
 
 ---
